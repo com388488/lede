@@ -7,14 +7,14 @@
 # <https://github.com/KFERMercer/OpenWrt-CI>
 # 
 
-name: 树莓派配置来自PC端-pi3+
+name: x64-1
 
 on:
   schedule:
     - cron: 0 20 * * *
-  push:
-    branches: 
-      - master
+  # push:
+  #   branches: 
+  #     - master
 
 jobs:
   build:
@@ -54,13 +54,9 @@ jobs:
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
 
-      - name: 自定义插件主题。
-        run: |
-          cd package
-          mkdir openwrt-packages
-          cd openwrt-packages
-          git clone https://github.com/openwrt-develop/luci-theme-atmaterial.git
-          git clone https://github.com/Ameykyl/luci-app-koolproxyR
+
+
+
 
       - name: Update feeds
         run: |
@@ -828,8 +824,6 @@ jobs:
           CONFIG_PACKAGE_luci-app-upnp=y
           CONFIG_PACKAGE_luci-app-v2ray-server=y
           CONFIG_PACKAGE_luci-app-wol=y
-          CONFIG_PACKAGE_luci-app-koolproxyR=y
-          CONFIG_PACKAGE_luci-theme-atmaterial=y
           CONFIG_PACKAGE_luci-theme-bootstrap=y
           CONFIG_PACKAGE_luci-theme-material=y
           CONFIG_PACKAGE_luci-proto-ppp=y
@@ -938,6 +932,7 @@ jobs:
           CONFIG_PACKAGE_shellsync=y
           EOF
 
+
           # 
           # ========================固件定制部分结束========================
           # 
@@ -945,7 +940,7 @@ jobs:
           sed -i 's/^[ \t]*//g' ./.config
           make defconfig
 
-      - name: Make download
+      - name: Download package source code
         run: |
           make download -j8
           find dl -size -1024c -exec ls -l {} \;
@@ -956,15 +951,9 @@ jobs:
           echo -e "$(nproc) thread build."
           make -j$(nproc) V=s
 
-
-      - name: Assemble artifact
-        run: |
-          rm -rf ./artifact/
-          mkdir -p ./artifact/
-          find ./bin/targets/ -name "*ext4-factory*img*" | xargs -i mv -f {} ./artifact/
-
-      - name: Upload artifact
+      - name : Upload artifact
         uses: actions/upload-artifact@master
         with:
-          name: OpenWrt pi3B+
-          path: ./artifact/
+          name: OpenWrt firmware
+          path: bin/targets
+
