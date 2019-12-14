@@ -7,7 +7,7 @@
 # <https://github.com/KFERMercer/OpenWrt-CI>
 # 
 
-name: 树莓派1-pi3+
+name: 树莓派2-pi3+
 
 on:
   schedule:
@@ -152,7 +152,9 @@ jobs:
           CONFIG_PACKAGE_kmod-usb2-pci=y
           CONFIG_PACKAGE_kmod-usb3=y
           EOF
-
+          
+          # 自定义插插件:
+          cat >> .config <<EOF
           CONFIG_PACKAGE_luci-app-accesscontrol=y
           CONFIG_PACKAGE_luci-app-arpbind=y
           CONFIG_PACKAGE_luci-app-autoreboot=y
@@ -181,7 +183,7 @@ jobs:
           CONFIG_PACKAGE_luci-app-koolproxyR=y
           EOF
 
-          LuCI主题:
+          # LuCI主题:
           cat >> .config <<EOF
           CONFIG_PACKAGE_luci-theme-material=y
           CONFIG_PACKAGE_luci-theme-atmaterial=y
