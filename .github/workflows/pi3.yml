@@ -12,9 +12,9 @@ name: 树莓派2-pi3+
 on:
   schedule:
     - cron: 0 20 * * *
-  push:
-    branches: 
-      - master
+  # push:
+    # branches: 
+      # - master
 
 jobs:
   build:
@@ -119,6 +119,9 @@ jobs:
 
           # 固件大小压缩:
           cat >> .config <<EOF
+          CONFIG_TARGET_ROOTFS_EXT4FS=y
+          CONFIG_TARGET_EXT4_RESERVED_PCT=0
+          CONFIG_TARGET_EXT4_BLOCKSIZE_4K=y
           CONFIG_TARGET_KERNEL_PARTSIZE=30
           CONFIG_TARGET_ROOTFS_PARTSIZE=300
           EOF
@@ -229,8 +232,7 @@ jobs:
         run: |
           rm -rf ./artifact/
           mkdir -p ./artifact/
-          find ./bin/targets/ -name "*factory*img*" | xargs -i mv -f {} ./artifact/
-          find ./bin/targets/ -name "*sysupgrade*img*" | xargs -i mv -f {} ./artifact/
+          find ./bin/targets/ -name "*ext4-factory*img*" | xargs -i mv -f {} ./artifact/
 
       - name: Upload artifact
         uses: actions/upload-artifact@master
