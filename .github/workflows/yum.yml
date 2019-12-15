@@ -10,9 +10,9 @@
 name: 云编译
 
 on:
-  push:
-    branches: 
-      - master
+  # push:
+  #   branches: 
+  #     - master
   schedule:
       - cron: 0 16 * * *
   release:
@@ -91,7 +91,7 @@ jobs:
           touch ./.config
 
           # LuCI插件选择:
-          cat >> .config <<EOF
+          cat > .config <EOF
           CONFIG_MODULES=y
           CONFIG_HAVE_DOT_CONFIG=y
           CONFIG_TARGET_x86=y
@@ -1071,9 +1071,6 @@ jobs:
           CONFIG_PACKAGE_openssl-util=y
           CONFIG_PACKAGE_shellsync=y
           EOF
-
-          sed -i 's/^[ \t]*//g' ./.config
-          make defconfig
 
       - name: 下载编译所需源码
         run: |
