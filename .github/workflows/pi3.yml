@@ -183,7 +183,7 @@ jobs:
           CONFIG_PACKAGE_luci-app-upnp=y
           CONFIG_PACKAGE_luci-app-v2ray-server=y
           CONFIG_PACKAGE_luci-app-wol=y
-          CONFIG_PACKAGE_luci-app-koolproxyR=y
+          CONFIG_PACKAGE_luci-app-nps=y
           EOF
 
           # LuCI主题:
@@ -205,6 +205,11 @@ jobs:
 
           # 取消编译VMware镜像以及镜像填充 (不要删除被缩进的注释符号):
           cat >> .config <<EOF
+          # CONFIG_PACKAGE_luci-app-adbyby-plus is not set
+          # CONFIG_DEFAULT_luci-app-xlnetacc is not set
+          # CONFIG_DEFAULT_luci-app-vlmcsd is not set
+          # CONFIG_DEFAULT_luci-app-vsftpd is not set
+          # CONFIG_DEFAULT_luci-app-zerotier is not set
           # CONFIG_TARGET_IMAGES_PAD is not set
           # CONFIG_VMDK_IMAGES is not set
           EOF
